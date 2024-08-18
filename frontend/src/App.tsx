@@ -1,10 +1,29 @@
-import logo from "./assets/convo_talk_logo.jpg";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { useAuthStore } from "./stores/useAuthStore";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
+  const authUser = useAuthStore((state) => state.authUser);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold underline mb-4">Hello world!</h1>
-      <img src={logo} alt="Convo Talk Logo" className="h-72 w-72" />
+    <div className="p-4 h-screen flex items-center justify-center">
+      <Routes>
+        <Route
+          path="/"
+          element={authUser ? <Home /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/login"
+          element={authUser ? <Navigate to="/" /> : <Login />}
+        />
+        <Route
+          path="/signup"
+          element={authUser ? <Navigate to="/" /> : <Signup />}
+        />
+      </Routes>
+      <Toaster />
     </div>
   );
 }
