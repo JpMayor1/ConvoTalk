@@ -4,32 +4,20 @@ import { useAuthStore } from "../stores/useAuthStore";
 import axiosInstance from "../axios/axios";
 import axios from "axios";
 
-interface SignupData {
-  fullName: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-}
-
-const useSignup = () => {
+const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const setAuthUser = useAuthStore((state) => state.setAuthUser);
 
-  const signup = async (data: SignupData) => {
-    const { fullName, username, password, confirmPassword, gender } = data;
-    const success = handleInputErrors({
-      fullName,
-      username,
-      password,
-      confirmPassword,
-      gender,
-    });
+  const login = async (username: string, password: string) => {
+    const success = handleInputErrors(username, password);
     if (!success) return;
-
     setLoading(true);
     try {
-      const res = await axiosInstance.post("/api/auth/signup", data);
+      const res = await axiosInstance.post("/api/auth/login", {
+        username,
+        password,
+      });
+
       const result = res.data;
 
       if (result.error) {
@@ -58,30 +46,13 @@ const useSignup = () => {
     }
   };
 
-  return { loading, signup };
+  return { loading, login };
 };
+export default useLogin;
 
-export default useSignup;
-
-function handleInputErrors({
-  fullName,
-  username,
-  password,
-  confirmPassword,
-  gender,
-}: SignupData) {
-  if (!fullName || !username || !password || !confirmPassword || !gender) {
+function handleInputErrors(username: string, password: string) {
+  if (!username || !password) {
     toast.error("Please fill in all fields");
-    return false;
-  }
-
-  if (password !== confirmPassword) {
-    toast.error("Passwords do not match");
-    return false;
-  }
-
-  if (password.length < 6) {
-    toast.error("Password must be at least 6 characters");
     return false;
   }
 

@@ -4,15 +4,23 @@ import { useAuthStore } from "./stores/useAuthStore";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import bg from "./assets/bg.png";
 
 function App() {
   const authUser = useAuthStore((state) => state.authUser);
   return (
-    <div className="p-4 h-screen flex items-center justify-center">
+    <div
+      className="bg-cover bg-no-repeat bg-center"
+      style={{ backgroundImage: `url(${bg})` }}
+    >
       <Routes>
         <Route
+          path="/*"
+          element={authUser ? <Home /> : <Navigate to="/login" />}
+        />
+        <Route
           path="/"
-          element={authUser ? <Home /> : <Navigate to={"/login"} />}
+          element={authUser ? <Home /> : <Navigate to="/login" />}
         />
         <Route
           path="/login"
