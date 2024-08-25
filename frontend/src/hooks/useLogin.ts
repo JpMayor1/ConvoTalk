@@ -1,8 +1,17 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { LoginApi } from "../api/auth";
 import { useAuthStore } from "../stores/useAuthStore";
-import axiosInstance from "../axios/axios";
+import toast from "react-hot-toast";
 import axios from "axios";
+
+function handleInputErrors(username: string, password: string) {
+  if (!username || !password) {
+    toast.error("Please fill in all fields");
+    return false;
+  }
+
+  return true;
+}
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -13,11 +22,7 @@ const useLogin = () => {
     if (!success) return;
     setLoading(true);
     try {
-      const res = await axiosInstance.post("/api/auth/login", {
-        username,
-        password,
-      });
-
+      const res = await LoginApi(username, password);
       const result = res.data;
 
       if (result.error) {
@@ -48,13 +53,5 @@ const useLogin = () => {
 
   return { loading, login };
 };
+
 export default useLogin;
-
-function handleInputErrors(username: string, password: string) {
-  if (!username || !password) {
-    toast.error("Please fill in all fields");
-    return false;
-  }
-
-  return true;
-}

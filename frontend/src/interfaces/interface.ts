@@ -10,3 +10,21 @@ export interface AuthState {
   setAuthUser: (user: User | null) => void;
   clearAuthUser: () => void;
 }
+
+export interface IMessage {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  shouldShake?: boolean;
+}
+
+export interface IConversationState {
+  selectedConversation: User | null;
+  setSelectedConversation: (selectedConversation: User | null) => void;
+  messages: IMessage[];
+  setMessages: (messages: IMessage[]) => void;
+}

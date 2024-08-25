@@ -1,74 +1,58 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  ReactNode,
-} from "react";
-import { Socket, io } from "socket.io-client";
+import { createContext, useState, useEffect, useRef, ReactNode } from "react";
 import { useAuthStore } from "../stores/useAuthStore";
+import { Socket, io } from "socket.io-client";
 import baseURL from "../axios/baseURL";
 
-// Define types for the context state
 interface SocketContextType {
   socket: Socket | null;
   onlineUsers: string[];
 }
 
-// Create context with an initial value of null or an empty object for type safety
-const SocketContext = createContext<SocketContextType | undefined>(undefined);
-
-// Custom hook to use the SocketContext
-export const useSocketContext = (): SocketContextType => {
-  const context = useContext(SocketContext);
-  if (!context) {
-    throw new Error(
-      "useSocketContext must be used within a SocketContextProvider"
-    );
-  }
-  return context;
-};
-
-// Define props for the provider component
 interface SocketContextProviderProps {
   children: ReactNode;
 }
 
+// Create context with an initial value of null or an empty object for type safety
+export const SocketContext = createContext<SocketContextType | undefined>(
+  undefined
+);
+
 export const SocketContextProvider = ({
   children,
 }: SocketContextProviderProps) => {
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const authUser = useAuthStore((state) => state.authUser);
 
+  // Use a ref to store the socket instance
+  const socketRef = useRef<Socket | null>(null);
+
   useEffect(() => {
     if (authUser) {
-      const socket = io(baseURL, {
+      const socketInstance = io(baseURL, {
         query: {
           userId: authUser._id,
         },
       });
-
-      setSocket(socket);
+      socketRef.current = socketInstance;
 
       // Listen for online users
-      socket.on("getOnlineUsers", (users: string[]) => {
+      socketInstance.on("getOnlineUsers", (users: string[]) => {
         setOnlineUsers(users);
       });
 
       return () => {
-        socket.close();
+        socketInstance.close();
       };
     } else {
-      if (socket) {
-        socket.close();
-        setSocket(null);
+      if (socketRef.current) {
+        socketRef.current.close();
+        socketRef.current = null;
       }
     }
   }, [authUser]);
 
   return (
-    <SocketContext.Provider value={{ socket, onlineUsers }}>
+    <SocketContext.Provider value={{ socket: socketRef.current, onlineUsers }}>
       {children}
     </SocketContext.Provider>
   );

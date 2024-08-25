@@ -1,7 +1,7 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { LogoutApi } from "../api/auth";
 import { useAuthStore } from "../stores/useAuthStore";
-import axiosInstance from "../axios/axios";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const useLogout = () => {
@@ -10,7 +10,7 @@ const useLogout = () => {
   const logout = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post("/api/auth/logout");
+      const res = await LogoutApi();
       const result = res.data;
 
       if (result.error) {
@@ -41,4 +41,5 @@ const useLogout = () => {
 
   return { loading, logout };
 };
+
 export default useLogout;

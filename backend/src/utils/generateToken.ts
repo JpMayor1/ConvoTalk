@@ -7,10 +7,10 @@ const generateTokenAndSetCookie = (userId: string, res: Response) => {
   });
 
   res.cookie("jwt", token, {
-    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days in milliseconds
-    httpOnly: true, // prevent XSS attacks
-    sameSite: "strict", // prevent CSRF attacks
-    secure: process.env.NODE_ENV !== "development", // use secure cookies in production
+    maxAge: 15 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
   });
 };
 
