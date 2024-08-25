@@ -36,7 +36,7 @@ const Signup = () => {
   return (
     <div className="h-full min-h-screen w-screen flex items-center justify-center bg-transparent p-5">
       <div className="w-full max-w-xl shadow-md backdrop-blur-lg rounded-md p-6">
-        <h2 className="text-4xl font-bold text-center mb-6 text-whitePrimary">
+        <h2 className="text-4xl font-bold text-center mb-6 text-primaryColor">
           Sign Up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -156,7 +156,7 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="w-full bg-whitePrimary text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+            className="w-full bg-primaryColor text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
             disabled={loading}
           >
             {loading ? (
@@ -167,7 +167,7 @@ const Signup = () => {
           </button>
         </form>
         <div className="flex items-center justify-center mt-5">
-          <Link to="/login" className="text-whitePrimary">
+          <Link to="/login" className="text-primaryColor">
             Already have an account? Login here!
           </Link>
         </div>

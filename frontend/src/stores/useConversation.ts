@@ -5,6 +5,8 @@ const useConversation = create<IConversationState>((set) => ({
   selectedConversation: null,
   setSelectedConversation: (selectedConversation) =>
     set({ selectedConversation }),
+  searchUser: null,
+  setSearchUser: (searchUser) => set({ searchUser }),
   messages: [],
   setMessages: (messages) => set({ messages }),
 }));

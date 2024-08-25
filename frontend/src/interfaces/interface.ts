@@ -25,6 +25,8 @@ export interface IMessage {
 export interface IConversationState {
   selectedConversation: User | null;
   setSelectedConversation: (selectedConversation: User | null) => void;
+  searchUser: string | null;
+  setSearchUser: (searchUser: string | null) => void;
   messages: IMessage[];
   setMessages: (messages: IMessage[]) => void;
 }

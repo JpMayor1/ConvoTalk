@@ -8,8 +8,11 @@ const MessageInput = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!message) return;
-    await sendMessage(message);
+    if (message) {
+      await sendMessage(message);
+    } else {
+      await sendMessage("👋");
+    }
     setMessage("");
   };
 
@@ -30,7 +33,7 @@ const MessageInput = () => {
           {loading ? (
             <div className="loading loading-spinner"></div>
           ) : (
-            <BsSend />
+            <>{message ? <BsSend /> : <p>👋</p>}</>
           )}
         </button>
       </div>

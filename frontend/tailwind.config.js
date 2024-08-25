@@ -12,9 +12,9 @@ module.exports = {
   theme: {
     colors: {
       white: "#F5F5F5",
-      whitePrimary: "#6200EE",
       black: "#121212",
-      blackPrimary: "#BB86FC",
+      primaryColor: "#6200EE",
+      secondaryColor: "#BB86FC",
     },
     extend: {
       fontFamily: {

@@ -33,7 +33,11 @@ const Messages = () => {
           </div>
         ))}
 
-      {loading && [...Array(3)].map((_, idx) => <p key={idx}>Loading...</p>)}
+      {loading && (
+        <div className="h-full w-full flex items-center justify-center">
+          <span className="loading loading-spinner loading-lg text-black/70"></span>
+        </div>
+      )}
       {!loading && messages.length === 0 && (
         <p className="text-center">Send a message to start the conversation</p>
       )}
