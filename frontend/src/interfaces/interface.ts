@@ -22,6 +22,11 @@ export interface IMessage {
   shouldShake?: boolean;
 }
 
+interface NewMessageNotif {
+  senderId: string;
+  hasNewMessage: boolean;
+}
+
 export interface IConversationState {
   selectedConversation: User | null;
   setSelectedConversation: (selectedConversation: User | null) => void;
@@ -29,4 +34,7 @@ export interface IConversationState {
   setSearchUser: (searchUser: string | null) => void;
   messages: IMessage[];
   setMessages: (messages: IMessage[]) => void;
+  newMessageNotif: NewMessageNotif[];
+  setNewMessageNotif: (notif: NewMessageNotif) => void;
+  clearNewMessageNotif: (senderId: string) => void;
 }

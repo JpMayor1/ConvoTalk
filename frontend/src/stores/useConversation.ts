@@ -9,6 +9,17 @@ const useConversation = create<IConversationState>((set) => ({
   setSearchUser: (searchUser) => set({ searchUser }),
   messages: [],
   setMessages: (messages) => set({ messages }),
+  newMessageNotif: [],
+  setNewMessageNotif: (notif) =>
+    set((state) => ({
+      newMessageNotif: [...state.newMessageNotif, notif],
+    })),
+  clearNewMessageNotif: (senderId) =>
+    set((state) => ({
+      newMessageNotif: state.newMessageNotif.filter(
+        (notif) => notif.senderId !== senderId
+      ),
+    })),
 }));
 
 export default useConversation;

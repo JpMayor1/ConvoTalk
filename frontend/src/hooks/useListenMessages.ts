@@ -6,7 +6,8 @@ import useConversation from "../stores/useConversation";
 
 const useListenMessages = () => {
   const { socket } = useSocketContext();
-  const { messages, setMessages, selectedConversation } = useConversation();
+  const { messages, setMessages, selectedConversation, setNewMessageNotif } =
+    useConversation();
 
   useEffect(() => {
     if (!socket) return;
@@ -21,6 +22,13 @@ const useListenMessages = () => {
         newMessage.shouldShake = true;
         setMessages([...messages, newMessage]);
       }
+
+      if (conversationId !== newMessage.senderId) {
+        setNewMessageNotif({
+          senderId: newMessage.senderId,
+          hasNewMessage: true,
+        });
+      }
     };
 
     socket.on("newMessage", handleNewMessage);
@@ -29,7 +37,7 @@ const useListenMessages = () => {
     return () => {
       socket.off("newMessage", handleNewMessage);
     };
-  }, [socket, setMessages, messages, selectedConversation]);
+  }, [socket, setMessages, messages, selectedConversation, setNewMessageNotif]);
 
   return null;
 };

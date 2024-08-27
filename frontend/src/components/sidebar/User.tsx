@@ -1,21 +1,41 @@
+import { useEffect, useState } from "react";
 import { useSocketContext } from "../../context/useSocketContext";
-import { User as IUSer } from "../../interfaces/interface";
+import { User as IUser } from "../../interfaces/interface";
 import useConversation from "../../stores/useConversation";
 
-const User = ({ user, lastIdx }: { user: IUSer; lastIdx: boolean }) => {
-  const { selectedConversation, setSelectedConversation } = useConversation();
+const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
+  const {
+    selectedConversation,
+    setSelectedConversation,
+    newMessageNotif,
+    clearNewMessageNotif,
+  } = useConversation();
   const { onlineUsers } = useSocketContext();
+
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+
+  useEffect(() => {
+    const notification = newMessageNotif.find(
+      (notif) => notif.senderId === user._id && notif.hasNewMessage
+    );
+    setHasNewMessage(!!notification);
+  }, [newMessageNotif, user._id]);
 
   const isSelected = selectedConversation?._id === user._id;
   const isOnline = onlineUsers.includes(user._id);
+
+  const handleUserSelection = () => {
+    setSelectedConversation(user);
+    clearNewMessageNotif(user._id);
+  };
 
   return (
     <>
       <div
         className={`flex gap-2 items-center hover:bg-primaryColor/70 rounded p-2 py-1 cursor-pointer
-				${isSelected ? "bg-primaryColor/70" : ""}
-			`}
-        onClick={() => setSelectedConversation(user)}
+          ${isSelected ? "bg-primaryColor/70" : ""}
+        `}
+        onClick={handleUserSelection}
       >
         <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
@@ -25,10 +45,13 @@ const User = ({ user, lastIdx }: { user: IUSer; lastIdx: boolean }) => {
 
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
-            <p className="font-bold text-black/60">{user.fullName}</p>
-            {/* {hasNewMessage && (
-              <span className="text-xl">Has new message...</span>
-            )} */}
+            <p
+              className={`font-bold ${
+                hasNewMessage ? "text-secondaryColor" : "text-black/60"
+              }`}
+            >
+              {user.fullName}
+            </p>
           </div>
         </div>
       </div>
