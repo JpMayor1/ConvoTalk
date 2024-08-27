@@ -15,6 +15,7 @@ module.exports = {
       black: "#121212",
       primaryColor: "#6200EE",
       secondaryColor: "#BB86FC",
+      red: "#FF6347",
     },
     extend: {
       fontFamily: {

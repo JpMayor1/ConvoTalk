@@ -13,12 +13,14 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
   const { onlineUsers } = useSocketContext();
 
   const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
 
   useEffect(() => {
     const notification = newMessageNotif.find(
       (notif) => notif.senderId === user._id && notif.hasNewMessage
     );
     setHasNewMessage(!!notification);
+    setMessageCount(notification ? notification.numberOfMessage : 0);
   }, [newMessageNotif, user._id]);
 
   const isSelected = selectedConversation?._id === user._id;
@@ -46,13 +48,16 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
             <p
-              className={`font-bold ${
-                hasNewMessage ? "text-secondaryColor" : "text-black/60"
+              className={`font-bold drop-shadow-lg ${
+                hasNewMessage ? "text-black" : "text-black/60"
               }`}
             >
               {user.fullName}
             </p>
           </div>
+          {hasNewMessage && (
+            <p className="text-red text-sm">{messageCount} new message(s)</p>
+          )}
         </div>
       </div>
 

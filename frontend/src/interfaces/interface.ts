@@ -22,9 +22,10 @@ export interface IMessage {
   shouldShake?: boolean;
 }
 
-interface NewMessageNotif {
+export interface NewMessageNotif {
   senderId: string;
   hasNewMessage: boolean;
+  numberOfMessage: number;
 }
 
 export interface IConversationState {

@@ -27,6 +27,7 @@ const useListenMessages = () => {
         setNewMessageNotif({
           senderId: newMessage.senderId,
           hasNewMessage: true,
+          numberOfMessage: 1,
         });
       }
     };
