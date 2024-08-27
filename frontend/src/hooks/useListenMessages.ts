@@ -6,17 +6,21 @@ import useConversation from "../stores/useConversation";
 
 const useListenMessages = () => {
   const { socket } = useSocketContext();
-  const { messages, setMessages } = useConversation();
+  const { messages, setMessages, selectedConversation } = useConversation();
 
   useEffect(() => {
     if (!socket) return;
 
     const handleNewMessage = (newMessage: IMessage) => {
-      newMessage.shouldShake = true;
+      const conversationId = selectedConversation?._id;
+
       const sound = new Audio(notificationSound);
       sound.play();
 
-      setMessages([...messages, newMessage]);
+      if (conversationId === newMessage.senderId) {
+        newMessage.shouldShake = true;
+        setMessages([...messages, newMessage]);
+      }
     };
 
     socket.on("newMessage", handleNewMessage);
@@ -25,7 +29,7 @@ const useListenMessages = () => {
     return () => {
       socket.off("newMessage", handleNewMessage);
     };
-  }, [socket, setMessages, messages]);
+  }, [socket, setMessages, messages, selectedConversation]);
 
   return null;
 };

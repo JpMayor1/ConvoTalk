@@ -24,7 +24,12 @@ const User = ({ user, lastIdx }: { user: IUSer; lastIdx: boolean }) => {
         </div>
 
         <div className="flex flex-col flex-1">
-          <p className="font-bold text-black/60">{user.fullName}</p>
+          <div className="flex gap-3 justify-between">
+            <p className="font-bold text-black/60">{user.fullName}</p>
+            {/* {hasNewMessage && (
+              <span className="text-xl">Has new message...</span>
+            )} */}
+          </div>
         </div>
       </div>
 
