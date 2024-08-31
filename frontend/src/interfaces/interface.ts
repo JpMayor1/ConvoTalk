@@ -39,3 +39,8 @@ export interface IConversationState {
   setNewMessageNotif: (notif: NewMessageNotif) => void;
   clearNewMessageNotif: (senderId: string) => void;
 }
+
+export interface MenuStateType {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}

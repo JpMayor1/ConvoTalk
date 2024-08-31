@@ -5,6 +5,8 @@ import useConversation from "../../stores/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import logo from "../../assets/convo_talk_logo.jpg";
+import call from "../../assets/call.png";
+import videoCall from "../../assets/video-call.png";
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
@@ -21,11 +23,21 @@ const MessageContainer = () => {
       ) : (
         <>
           {/* Header */}
-          <div className="px-4 py-2 mb-2">
-            <span className="label-text text-black">To:</span>{" "}
-            <span className="text-black font-bold">
-              {selectedConversation.fullName}
-            </span>
+          <div className="w-full flex items-center justify-end gap-5 pr-4 sm:pr-10 py-2 mb-2">
+            <button>
+              <img
+                src={call}
+                alt="call icon"
+                className="h-7 w-7 sm:h-8 sm:w-8"
+              />
+            </button>
+            <button>
+              <img
+                src={videoCall}
+                alt="video-call icon"
+                className="h-7 w-7 sm:h-8 sm:w-8"
+              />
+            </button>
           </div>
           <Messages />
           <MessageInput />

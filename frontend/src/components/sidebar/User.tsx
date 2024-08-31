@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSocketContext } from "../../context/useSocketContext";
 import { User as IUser } from "../../interfaces/interface";
 import useConversation from "../../stores/useConversation";
+import useMenuState from "../../stores/useMenuState";
 
 const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
   const {
@@ -11,6 +12,8 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
     clearNewMessageNotif,
   } = useConversation();
   const { onlineUsers } = useSocketContext();
+  const { isOpen, setIsOpen } = useMenuState((state) => state);
+  const { searchUser, setSearchUser } = useConversation();
 
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
@@ -29,6 +32,11 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
   const handleUserSelection = () => {
     setSelectedConversation(user);
     clearNewMessageNotif(user._id);
+    setIsOpen(!isOpen);
+
+    if (searchUser) {
+      setSearchUser("");
+    }
   };
 
   return (
@@ -49,14 +57,16 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
           <div className="flex gap-3 justify-between">
             <p
               className={`font-bold drop-shadow-lg ${
-                hasNewMessage ? "text-black" : "text-black/60"
+                hasNewMessage ? "text-white" : "text-white/60"
               }`}
             >
               {user.fullName}
             </p>
           </div>
           {hasNewMessage && (
-            <p className="text-red text-sm">{messageCount} new message(s)</p>
+            <p className="text-red text-sm">
+              {messageCount} new message{messageCount > 1 && "s"}
+            </p>
           )}
         </div>
       </div>

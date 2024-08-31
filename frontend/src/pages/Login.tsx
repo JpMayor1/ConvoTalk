@@ -28,8 +28,8 @@ const Login = () => {
   return (
     <>
       <div className="h-full min-h-screen w-screen flex items-center justify-center bg-transparent p-5">
-        <div className="w-full max-w-xl shadow-md backdrop-blur-lg rounded-md p-6">
-          <h2 className="text-4xl font-bold text-center mb-6 text-primaryColor">
+        <div className="w-full max-w-xl shadow-md bg-black/10 backdrop-blur-lg rounded-md p-6">
+          <h2 className="text-4xl font-bold text-center mb-6 text-primaryColor/90">
             Login
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,7 +79,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-primaryColor text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="w-full bg-primaryColor text-white py-2 px-4 rounded-lg hover:bg-primaryColor/80 transition duration-300"
               disabled={loading}
             >
               {loading ? (
@@ -90,7 +90,10 @@ const Login = () => {
             </button>
           </form>
           <div className="flex items-center justify-center mt-5">
-            <Link to="/signup" className="text-primaryColor">
+            <Link
+              to="/signup"
+              className="text-primaryColor hover:text-primaryColor/70"
+            >
               Don't have an account? Signup here!
             </Link>
           </div>
