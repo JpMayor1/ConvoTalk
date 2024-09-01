@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { TiMessages } from "react-icons/ti";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { IoIosCall, IoMdVideocam } from "react-icons/io";
 import useConversation from "../../stores/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import logo from "../../assets/convo_talk_logo.jpg";
-import call from "../../assets/call.png";
-import videoCall from "../../assets/video-call.png";
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
@@ -25,18 +24,10 @@ const MessageContainer = () => {
           {/* Header */}
           <div className="w-full flex items-center justify-end gap-5 pr-4 sm:pr-10 py-2 mb-2">
             <button>
-              <img
-                src={call}
-                alt="call icon"
-                className="h-7 w-7 sm:h-8 sm:w-8"
-              />
+              <IoIosCall className="text-primaryColor h-7 w-7 sm:h-8 sm:w-8" />
             </button>
             <button>
-              <img
-                src={videoCall}
-                alt="video-call icon"
-                className="h-7 w-7 sm:h-8 sm:w-8"
-              />
+              <IoMdVideocam className="text-primaryColor h-7 w-7 sm:h-8 sm:w-8" />
             </button>
           </div>
           <Messages />

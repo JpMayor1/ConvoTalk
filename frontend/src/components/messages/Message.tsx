@@ -2,12 +2,14 @@ import { IMessage } from "../../interfaces/interface";
 import { extractTime } from "../../utils/extractTime";
 import { useAuthStore } from "../../stores/useAuthStore";
 import useConversation from "../../stores/useConversation";
+import { useState } from "react";
 
 interface MessageProps {
   message: IMessage;
 }
 
 const Message = ({ message }: MessageProps) => {
+  const [loading, setLoading] = useState(true);
   const authUser = useAuthStore((state) => state.authUser);
   const { selectedConversation } = useConversation();
   const fromMe = message.senderId === authUser?._id;
@@ -24,11 +26,17 @@ const Message = ({ message }: MessageProps) => {
     <div className={`chat ${chatClassName}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img alt="Tailwind CSS chat bubble component" src={profilePic} />
+          <img
+            alt="Tailwind CSS chat bubble component"
+            src={profilePic}
+            className={`${loading ? "blur-md" : "blur-0"}`}
+            onLoad={() => setLoading(false)}
+            onError={() => setLoading(false)}
+          />
         </div>
       </div>
       <p
-        className={`chat-bubble text-white pb-2 ${bubbleBgColor} ${shakeClass}`}
+        className={`chat-bubble text-white pb-2 break-all ${bubbleBgColor} ${shakeClass}`}
       >
         {message.message}
       </p>

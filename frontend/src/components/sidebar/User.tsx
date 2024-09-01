@@ -17,6 +17,7 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
 
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const notification = newMessageNotif.find(
@@ -49,7 +50,15 @@ const User = ({ user, lastIdx }: { user: IUser; lastIdx: boolean }) => {
       >
         <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
-            <img src={user.profilePic} alt="user avatar" />
+            <img
+              src={user.profilePic}
+              alt="user avatar"
+              className={`transition-all duration-300 ${
+                loading ? "blur-md" : "blur-0"
+              }`}
+              onLoad={() => setLoading(false)}
+              onError={() => setLoading(false)}
+            />
           </div>
         </div>
 
