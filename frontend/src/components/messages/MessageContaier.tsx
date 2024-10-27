@@ -6,14 +6,31 @@ import useConversation from "../../stores/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import logo from "../../assets/convo_talk_logo.jpg";
+import { useSocketContext } from "../../socket/useSocketContext";
+import useVideoChatStore from "../../stores/useVideoChatStore";
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
+  const { callRequest } = useSocketContext();
+  const { setReceiverId } = useVideoChatStore();
+  const authUser = useAuthStore((state) => state.authUser);
 
   useEffect(() => {
     // cleanup function (unmounts)
     return () => setSelectedConversation(null);
   }, [setSelectedConversation]);
+
+  const handleCallRequest = (audioOnly: boolean) => {
+    if (!selectedConversation || !authUser) return;
+
+    callRequest({
+      receiverUserId: selectedConversation._id,
+      callerName: authUser.fullName,
+      audioOnly,
+    });
+
+    setReceiverId(selectedConversation._id);
+  };
 
   return (
     <div className="w-full flex flex-col">
@@ -23,10 +40,11 @@ const MessageContainer = () => {
         <>
           {/* Header */}
           <div className="w-full flex items-center justify-end gap-5 pr-4 sm:pr-10 py-2 mb-2">
-            <button>
+            <button onClick={() => handleCallRequest(true)}>
               <IoIosCall className="text-primaryColor h-7 w-7 sm:h-8 sm:w-8" />
             </button>
-            <button>
+            {/* for video call */}
+            <button onClick={() => handleCallRequest(false)}>
               <IoMdVideocam className="text-primaryColor h-7 w-7 sm:h-8 sm:w-8" />
             </button>
           </div>

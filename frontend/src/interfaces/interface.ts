@@ -1,3 +1,6 @@
+import SimplePeer from "simple-peer";
+import Peer from "simple-peer";
+
 export interface User {
   _id: string;
   fullName: string;
@@ -43,4 +46,43 @@ export interface IConversationState {
 export interface MenuStateType {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+}
+
+export interface PeerInstance extends Peer.Instance {
+  iceConnectionState: string;
+  getStats(): Promise<RTCStatsReport>;
+  setParameters(params: {
+    video?: MediaTrackConstraints;
+    audio?: MediaTrackConstraints;
+  }): void;
+}
+
+export interface VideoChatState {
+  receiverId: string | null;
+  localStream: MediaStream | null;
+  remoteStream: MediaStream | null;
+  otherUserId: string | null;
+  audioOnly: boolean;
+  screenSharing: boolean;
+  callStatus: "ringing" | "accepted" | "rejected" | "left" | null;
+  callRequest: {
+    callerName: string;
+    audioOnly: boolean;
+    callerUserId: string;
+    signal: SimplePeer.SignalData;
+  } | null;
+  startedCall: boolean;
+  receivingCall: boolean;
+
+  // Actions to update the state
+  setReceiverId: (id: string) => void;
+  setLocalStream: (stream: MediaStream | null) => void;
+  setRemoteStream: (stream: MediaStream | null) => void;
+  setCallRequest: (request: VideoChatState["callRequest"]) => void;
+  setCallStatus: (status: VideoChatState["callStatus"]) => void;
+  setOtherUserId: (id: string | null) => void;
+  resetVideoChatState: () => void;
+  setAudioOnly: (audioOnly: boolean) => void;
+  setStartedCall: (value: boolean) => void;
+  setReceivingCall: (value: boolean) => void;
 }

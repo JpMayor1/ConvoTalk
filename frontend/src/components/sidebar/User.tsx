@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSocketContext } from "../../context/useSocketContext";
+import { useSocketContext } from "../../socket/useSocketContext";
 import { User as IUser } from "../../interfaces/interface";
 import useConversation from "../../stores/useConversation";
 import useMenuState from "../../stores/useMenuState";
