@@ -45,7 +45,7 @@ export interface IConversationState {
 
 export interface MenuStateType {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: () => void;
 }
 
 export interface PeerInstance extends Peer.Instance {

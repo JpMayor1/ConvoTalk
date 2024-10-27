@@ -3,7 +3,7 @@ import { MenuStateType } from "../interfaces/interface";
 
 const useMenuState = create<MenuStateType>((set) => ({
   isOpen: false,
-  setIsOpen: (isOpen) => set({ isOpen }),
+  setIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
 
 export default useMenuState;
