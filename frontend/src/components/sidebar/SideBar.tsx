@@ -9,8 +9,10 @@ const Sidebar = () => {
   return (
     <div
       className={`${
-        isOpen ? "w-16 h-12" : "bg-black/90 h-full border-r border-r-black/30"
-      } absolute top-0 left-0 z-10 sm:relative p-4 flex flex-col justify-center transition-all duration-300 ease-in-out`}
+        isOpen
+          ? "w-16 h-12 justify-start"
+          : "bg-black/90 w-full md:w-96 h-full border-r border-r-black/30 justify-center"
+      } absolute top-0 left-0 z-10 sm:relative p-4 flex flex-col transition-all duration-300 ease-in-out`}
     >
       <div className="w-full flex justify-end py-5">
         <Menu />
